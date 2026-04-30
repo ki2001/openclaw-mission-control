@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 /// One row per agent your OpenClaw stack runs. Agents self-report here
@@ -29,10 +29,10 @@ model Mission {
   id          String    @id @default(uuid())
   agentId     String
   title       String
-  description String    @db.Text
+  description String
   status      String    @default("pending")    // pending | active | completed | failed
   priority    String    @default("medium")     // high | medium | low
-  result      String?   @db.Text
+  result      String?
   createdAt   DateTime  @default(now())
   completedAt DateTime?
 

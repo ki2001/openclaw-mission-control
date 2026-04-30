@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { Bot, ListTodo, Lightbulb, Activity } from "lucide-react";
-import Link from "next/link";
+import { AgentGrid } from "@/components/agent-grid";
 
 export const dynamic = "force-dynamic";
 
@@ -55,36 +55,8 @@ export default async function HomePage() {
         <Kpi icon={<Lightbulb className="w-4 h-4" />} label="Ideas to review" value={String(s.pendingIdeas)} />
       </div>
 
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-[16px] font-semibold">Agents</h2>
-        <Link href="/agents" className="text-[13px] text-[var(--ink-2)] hover:text-[var(--ink)]">
-          View all →
-        </Link>
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        {s.agents.slice(0, 6).map((a) => (
-          <div
-            key={a.id}
-            className="p-4 rounded-xl flex items-center gap-3"
-            style={{ background: "var(--panel)", border: "1px solid var(--line)" }}
-          >
-            <div className="text-2xl">{a.emoji || "🤖"}</div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <div className="font-medium text-[14px] truncate">{a.name}</div>
-                <StatusDot status={a.status} />
-              </div>
-              <div className="text-[12px] text-[var(--ink-3)] truncate">
-                {a.currentTask || a.role || "Idle"}
-              </div>
-            </div>
-            <div className="text-right text-[12px] text-[var(--ink-3)]">
-              <div>{a.tasksCompleted} tasks</div>
-              <div>${(a.totalCost || 0).toFixed(2)}</div>
-            </div>
-          </div>
-        ))}
-      </div>
+      {/* Client-side agent grid with auto-refresh every 15s */}
+      <AgentGrid />
     </div>
   );
 }
@@ -102,16 +74,4 @@ function Kpi({ icon, label, value }: { icon: React.ReactNode; label: string; val
       <div className="text-[22px] font-semibold tracking-[-0.01em]">{value}</div>
     </div>
   );
-}
-
-function StatusDot({ status }: { status: string }) {
-  const color =
-    status === "online" || status === "working"
-      ? "bg-emerald-500"
-      : status === "error"
-      ? "bg-red-500"
-      : status === "idle"
-      ? "bg-amber-500"
-      : "bg-zinc-600";
-  return <div className={`w-1.5 h-1.5 rounded-full ${color}`} />;
 }

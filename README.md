@@ -26,10 +26,12 @@ entire stack at a glance.
 ## Stack
 
 - **Next.js 16** (App Router, React 19)
-- **Prisma 6** on Postgres (Vercel Postgres / Neon / Supabase / local all work)
+- **Prisma 6** on SQLite (local) — also supports Postgres
 - **Tailwind CSS v4**
-- No auth layer by default. If you need one, wire up NextAuth after
-  install (see `BOOTSTRAP.md` "What to extend next").
+- **HTTP Basic Auth** — dashboard protected with username/password
+- **Rate limiting** — 1 req/sec per agent on POST endpoint
+- **Zod validation** — input schemas enforced on agent state updates
+- **Auto-refresh** — dashboard polls every 15 seconds
 
 ## Quick start
 
@@ -118,9 +120,13 @@ See `CLAUDE.md` for notes if you're editing this with Claude Code.
 
 ## Deploying
 
-Tested on Vercel. Push to GitHub, import on Vercel, set the env vars from
-`.env.example`, and you're done. Any Postgres host works - Neon and Vercel
-Postgres are the easiest.
+For local deployment (recommended):
+
+```bash
+npm run dev
+# Dashboard available at http://localhost:3000
+# Login: admin / DASHBOARD_PASSWORD from .env
+```
 
 ## License
 
