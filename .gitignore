@@ -43,6 +43,7 @@ next-env.d.ts
 
 # prisma
 /prisma/migrations
+/prisma/*.db
 
 # local live agent state (generated at runtime — not for version control)
 /data/*.json
